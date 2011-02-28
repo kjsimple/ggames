@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project default="all" basedir=".">
+  
+  <property environment="env" />
+  <property file="build.properties" />
+  <import file="${google.appengine.home}/config/user/ant-macros.xml" />
+  
+  <path id="path.runtime">
+    <fileset dir="${google.appengine.home}/lib/shared">
+      <include name="geronimo-servlet_2.5_spec-1.2.jar" />
+    </fileset>
+    <fileset dir="${freemarker.home}/lib">
+      <include name="freemarker.jar" />
+    </fileset>
+    <fileset dir="${jackson.home}">
+      <include name="*.jar" />
+    </fileset>
+  </path>
+  
+  <target name="init">
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${build.war.dir}" />
+    <mkdir dir="${build.classes.dir}" />
+  </target>
+  
+  <target name="compile" depends="init">
+
+    <javac destdir="${build.classes.dir}" debug="true" deprecation="on" debuglevel="lines,vars,source">
+      <compilerarg value="-Xlint:unchecked" />
+      <src path="${source.src.dir}" />
+      <classpath refid="path.runtime" />
+    </javac>
+    
+  </target>
+
+  <target name="makeWar">
+    <copy todir="${build.lib.dir}" flatten="true">
+      <path refid="path.runtime" />
+    </copy>
+    <copy todir="${build.war.dir}">
+      <fileset dir="${source.web.dir}" />
+    </copy>
+  </target>
+
+  <target name="all" depends="init, compile, makeWar">
+    
+  </target>
+
+  <target name="clean">
+    <delete dir="${build.dir}" />
+    <delete dir="${build.classes.dir}" />
+    <delete dir="${build.lib.dir}" />
+  </target>
+  
+  <target name="update" depends="all">
+    <appcfg action="update" war="${build.war.dir}" />
+  </target>
+  
+</project>

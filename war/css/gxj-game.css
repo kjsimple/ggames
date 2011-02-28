@@ -1,0 +1,124 @@
+body {
+    background: transparent url(imgs/bg.gif) repeat;
+}
+
+body, html {
+    font: 12px arial;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.elem {
+    height: 34px;
+    width: 34px;
+    float: left;
+    position: absolute;
+    background: url('imgs/elem_sprite.png') repeat scroll 0 0 transparent;
+}
+
+.elem-1 {
+    background-position: 0 0;
+}
+.elem-1-selected {
+    background-position: 0 -68px;
+}
+.elem-2 {
+    background-position: -34px 0;
+}
+.elem-2-selected {
+    background-position: -34px -68px;
+}
+.elem-3 {
+    background-position: -68px 0;
+}
+.elem-3-selected {
+    background-position: -68px -68px;
+}
+.elem-4 {
+    background-position: -102px 0;
+}
+.elem-4-selected {
+    background-position: -102px -68px;
+}
+.elem-5 {
+    background-position: -136px 0;
+}
+.elem-5-selected {
+    background-position: -136px -68px;
+}
+.elem-6 {
+    background-position: -170px 0;
+}
+.elem-6-selected {
+    background-position: -170px -68px;
+}
+.elem-7 {
+    background-position: -204px 0;
+}
+.elem-7-selected {
+    background-position: -204px -68px;
+}
+.elem-8 {
+    background-position: 0 -34px;
+}
+.elem-8-selected {
+    background-position: 0 -102px;
+}
+.elem-9 {
+    background-position: -34px -34px;
+}
+.elem-9-selected {
+    background-position: -34px -102px;
+}
+.elem-10 {
+    background-position: -68px -34px;
+}
+.elem-10-selected {
+    background-position: -68px -102px;
+}
+.elem-11 {
+    background-position: -102px -34px;
+}
+.elem-11-selected {
+    background-position: -102px -102px;
+}
+.elem-12 {
+    background-position: -136px -34px;
+}
+.elem-12-selected {
+    background-position: -136px -102px;
+}
+.elem-13 {
+    background-position: -170px -34px;
+}
+.elem-13-selected {
+    background-position: -170px -102px;
+}
+.elem-14 {
+    background-position: -204px -34px;
+}
+.elem-14-selected {
+    background-position: -204px -102px;
+}
+
+#chessCanvas {
+    height: 424px;
+    width: 362px;
+    border: 1px solid #B0B0B0;
+    background: transparent url("imgs/chbk.png") no-repeat scroll center;
+    position: relative;
+}
+
+#actions {
+    padding-bottom: 2px;
+}
+
+.ui-widget {
+    font-size: 12px;  
+}
+
+.ui-button-text-only .ui-button-text {
+    padding: 2px 1em 1px 1em;
+}
