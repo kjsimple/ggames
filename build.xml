@@ -4,17 +4,16 @@
   
   <property environment="env" />
   <property file="build.properties" />
-  <import file="${google.appengine.home}/config/user/ant-macros.xml" />
-  
+
   <path id="path.runtime">
-    <fileset dir="${google.appengine.home}/lib/shared">
-      <include name="geronimo-servlet_2.5_spec-1.2.jar" />
-    </fileset>
     <fileset dir="${freemarker.home}/lib">
       <include name="freemarker.jar" />
     </fileset>
     <fileset dir="${jackson.home}">
       <include name="*.jar" />
+    </fileset>
+		<fileset dir="${tomcat.home}/lib">
+      <include name="servlet-api.jar" />
     </fileset>
   </path>
   
@@ -38,23 +37,27 @@
     <copy todir="${build.lib.dir}" flatten="true">
       <path refid="path.runtime" />
     </copy>
-    <copy todir="${build.war.dir}">
-      <fileset dir="${source.web.dir}" />
-    </copy>
   </target>
 
-  <target name="all" depends="init, compile, makeWar">
+  <target name="all" depends="init, compile, makeWar, deploy">
     
   </target>
+
+	<target name="deploy">
+		<copy todir="${tomcat.home}" filtering="true">
+      <fileset dir="tomcat">
+        <include name="**/*.xml" />
+      </fileset>
+      <filterset begintoken="@" endtoken="@">
+        <filter token="BASE_DIR" value="${basedir}" />
+      </filterset>
+    </copy>
+	</target>
 
   <target name="clean">
     <delete dir="${build.dir}" />
     <delete dir="${build.classes.dir}" />
     <delete dir="${build.lib.dir}" />
-  </target>
-  
-  <target name="update" depends="all">
-    <appcfg action="update" war="${build.war.dir}" />
   </target>
   
 </project>
