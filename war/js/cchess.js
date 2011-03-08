@@ -170,60 +170,47 @@ function getTop(x) {
 function getLeft(y) {
     return y * 40 + 4;
 }
-$.fn.g_chessElement = function() {
+
+$.fn.g_cchess = function(options) {
+    var opts = $.extend({}, $.fn.g_cchess.defaults, options)
     return this.each(function() {
-        var elemId = $(this).data('elemId')
-        var x = $(this).data('x')
-        var y = $(this).data('y')
-        var top = getTop(x)
-        var left = getLeft(y)
-        $(this).addClass('elem').css("top", top + "px").css('left', left + "px").css('position', 'absolute')
-        .addClass('elem-' + elemId).hover(function(){$(this).css('cursor', 'move')}).data('side', elemId > 7 ? 'red' : 'black')
-        .draggable({stack: allElemSelector(), containment: 'parent', cursor: 'move',
-                    stop: moveStopped}).appendTo('#chessCanvas')
-        .mousedown(function () {
-            findAllElement().each(function () {
-                $(this).removeClass('elem-' + $(this).data('elemId') + '-selected');
-            });
-            $(this).addClass('elem-' + $(this).data('elemId') + '-selected').data('oldPos', {top: $(this).position().top, left: $(this).position().left})
+        $(opts.elems).each(function (index, elem) {
+            cchessElement($("<div>").data(elem));
+        });
+    });
+
+    function cchessElement(htmlElem) {
+        return htmlElem.each(function() {
+            var elemId = $(this).data('elemId')
+            var x = $(this).data('x')
+            var y = $(this).data('y')
+            var top = getTop(x)
+            var left = getLeft(y)
+            $(this).addClass('elem').css("top", top + "px").css('left', left + "px").css('position', 'absolute')
+            .addClass('elem-' + elemId).hover(function(){$(this).css('cursor', 'move')}).data('side', elemId > 7 ? 'red' : 'black')
+            .draggable({stack: allElemSelector(), containment: 'parent', cursor: 'move',
+                        stop: moveStopped}).appendTo('#chessCanvas')
+            .mousedown(function () {
+                findAllElement().each(function () {
+                    $(this).removeClass('elem-' + $(this).data('elemId') + '-selected');
+                });
+                $(this).addClass('elem-' + $(this).data('elemId') + '-selected').data('oldPos', {top: $(this).position().top, left: $(this).position().left})
+            })
         })
-    })
+    }
+}
+$.fn.g_cchess.defaults = {elems: [
+    {elemId: 1, x: 0, y: 4},{elemId: 2, x: 3, y: 0},{elemId: 2, x: 3, y: 2},{elemId: 2, x: 3, y: 4},
+    {elemId: 2, x: 3, y: 6},{elemId: 2, x: 3, y: 8},{elemId: 3, x: 0, y: 0},{elemId: 3, x: 0, y: 8},
+    {elemId: 4, x: 0, y: 1},{elemId: 4, x: 0, y: 7},{elemId: 5, x: 2, y: 1},{elemId: 5, x: 2, y: 7},
+    {elemId: 6, x: 0, y: 3},{elemId: 6, x: 0, y: 5},{elemId: 7, x: 0, y: 2},{elemId: 7, x: 0, y: 6},
+    {elemId: 8, x: 9, y: 4},{elemId: 9, x: 6, y: 0},{elemId: 9, x: 6, y: 2},{elemId: 9, x: 6, y: 4},
+    {elemId: 9, x: 6, y: 6},{elemId: 9, x: 6, y: 8},{elemId: 10, x: 9, y: 0},{elemId: 10, x: 9, y: 8},
+    {elemId: 11, x: 9, y: 1},{elemId: 11, x: 9, y: 7},{elemId: 12, x: 7, y: 1},{elemId: 12, x: 7, y: 7},
+    {elemId: 13, x: 9, y: 3},{elemId: 13, x: 9, y: 5},{elemId: 14, x: 9, y: 2},{elemId: 14, x: 9, y: 6},]
 }
 
 function createNew(data) {
-    $('#chessCanvas').data({cp: 'red'})
-    $("<div>").data({elemId: 1, x: 0, y: 4}).g_chessElement()
-    $("<div>").data({elemId: 2, x: 3, y: 0}).g_chessElement()
-    $("<div>").data({elemId: 2, x: 3, y: 2}).g_chessElement()
-    $("<div>").data({elemId: 2, x: 3, y: 4}).g_chessElement()
-    $("<div>").data({elemId: 2, x: 3, y: 6}).g_chessElement()
-    $("<div>").data({elemId: 2, x: 3, y: 8}).g_chessElement()
-    $("<div>").data({elemId: 3, x: 0, y: 0}).g_chessElement()
-    $("<div>").data({elemId: 3, x: 0, y: 8}).g_chessElement()
-    $("<div>").data({elemId: 4, x: 0, y: 1}).g_chessElement()
-    $("<div>").data({elemId: 4, x: 0, y: 7}).g_chessElement()
-    $("<div>").data({elemId: 5, x: 2, y: 1}).g_chessElement()
-    $("<div>").data({elemId: 5, x: 2, y: 7}).g_chessElement()
-    $("<div>").data({elemId: 6, x: 0, y: 3}).g_chessElement()
-    $("<div>").data({elemId: 6, x: 0, y: 5}).g_chessElement()
-    $("<div>").data({elemId: 7, x: 0, y: 2}).g_chessElement()
-    $("<div>").data({elemId: 7, x: 0, y: 6}).g_chessElement()
-
-    $("<div>").data({elemId: 8, x: 9, y: 4}).g_chessElement()
-    $("<div>").data({elemId: 9, x: 6, y: 0}).g_chessElement()
-    $("<div>").data({elemId: 9, x: 6, y: 2}).g_chessElement()
-    $("<div>").data({elemId: 9, x: 6, y: 4}).g_chessElement()
-    $("<div>").data({elemId: 9, x: 6, y: 6}).g_chessElement()
-    $("<div>").data({elemId: 9, x: 6, y: 8}).g_chessElement()
-    $("<div>").data({elemId: 10, x: 9, y: 0}).g_chessElement()
-    $("<div>").data({elemId: 10, x: 9, y: 8}).g_chessElement()
-    $("<div>").data({elemId: 11, x: 9, y: 1}).g_chessElement()
-    $("<div>").data({elemId: 11, x: 9, y: 7}).g_chessElement()
-    $("<div>").data({elemId: 12, x: 7, y: 1}).g_chessElement()
-    $("<div>").data({elemId: 12, x: 7, y: 7}).g_chessElement()
-    $("<div>").data({elemId: 13, x: 9, y: 3}).g_chessElement()
-    $("<div>").data({elemId: 13, x: 9, y: 5}).g_chessElement()
-    $("<div>").data({elemId: 14, x: 9, y: 2}).g_chessElement()
-    $("<div>").data({elemId: 14, x: 9, y: 6}).g_chessElement()
+    $('#chessCanvas').data({cp: 'red'}).g_cchess()
     $("#createNew").button("disable")
 }
